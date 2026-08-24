@@ -1,35 +1,119 @@
-import { Tabs } from 'expo-router';
-import React from 'react';
+import { Ionicons } from "@expo/vector-icons";
+import { Tabs } from "expo-router";
+import { StyleSheet, View } from "react-native";
 
-import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Colors } from '@/constants/theme';
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export default function TabLayout() {
-  const colorScheme = useColorScheme();
-
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-      }}>
+
+        tabBarShowLabel: false,
+
+        tabBarStyle: styles.tabBar,
+
+        tabBarItemStyle: styles.tabBarItem,
+
+        tabBarActiveTintColor: "#5EA8FF",
+        tabBarInactiveTintColor: "#6F7C91",
+
+        sceneStyle: {
+          backgroundColor: "#07111F",
+        },
+      }}
+    >
       <Tabs.Screen
-        name="index"
+        name="home"
         options={{
-          title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          title: "Home",
+
+          tabBarIcon: ({ color, focused }) => (
+            <View
+              style={[
+                styles.iconContainer,
+                focused && styles.activeIconContainer,
+              ]}
+            >
+              <Ionicons
+                name={focused ? "home" : "home-outline"}
+                size={23}
+                color={color}
+              />
+            </View>
+          ),
         }}
       />
+
       <Tabs.Screen
-        name="explore"
+        name="profile"
         options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+          title: "Profile",
+
+          tabBarIcon: ({ color, focused }) => (
+            <View
+              style={[
+                styles.iconContainer,
+                focused && styles.activeIconContainer,
+              ]}
+            >
+              <Ionicons
+                name={focused ? "person" : "person-outline"}
+                size={23}
+                color={color}
+              />
+            </View>
+          ),
         }}
       />
     </Tabs>
   );
 }
+
+const styles = StyleSheet.create({
+  tabBar: {
+    position: "absolute",
+
+    left: 20,
+    right: 20,
+    bottom: 18,
+
+    height: 68,
+
+    paddingTop: 8,
+    paddingBottom: 8,
+
+    backgroundColor: "#0C1828",
+
+    borderTopWidth: 0,
+
+    borderRadius: 24,
+
+    elevation: 15,
+
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 6,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 14,
+  },
+
+  tabBarItem: {
+    height: 52,
+  },
+
+  iconContainer: {
+    width: 46,
+    height: 46,
+
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderRadius: 16,
+  },
+
+  activeIconContainer: {
+    backgroundColor: "#142A44",
+  },
+});
